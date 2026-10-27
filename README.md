@@ -23,11 +23,7 @@ http://localhost:3000
 
 ---
 
-## 🔑 Default Credentials
 
-| Role  | Email                    | Password   |
-|-------|--------------------------|------------|
-| Admin | admin@proteamgym.com     | admin123   |
 
 ---
 
