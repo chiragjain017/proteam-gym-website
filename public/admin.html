@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Proteam Gym</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">💪</div>
+      <span class="logo-text">PROTEAM GYM</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">← Back to Site</a></li>
+    </ul>
+    <div class="nav-actions">
+      <span style="color:var(--orange-light);font-weight:600;font-size:0.9rem">⚙️ Admin Panel</span>
+      <button class="btn btn-secondary btn-sm" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<div class="dashboard-header" style="padding:130px 0 40px">
+  <div class="container">
+    <span class="section-badge">Admin Panel</span>
+    <h1 style="font-size:2.5rem">Proteam Gym <span class="gradient-text">Admin Dashboard</span></h1>
+    <p style="color:var(--text-muted)">Manage members, bookings, contacts and gym operations</p>
+  </div>
+</div>
+
+<section style="padding:30px 0 80px">
+  <div class="container">
+    <!-- Stats Cards -->
+    <div class="admin-stats-grid" id="adminStatsGrid">
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon" style="background:rgba(124,58,237,0.15)">👥</div>
+        <div><div class="admin-stat-num" id="sTotalMembers">—</div><div class="admin-stat-label">Total Members</div></div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon" style="background:rgba(16,185,129,0.15)">✅</div>
+        <div><div class="admin-stat-num" id="sActiveMembers">—</div><div class="admin-stat-label">Active Members</div></div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon" style="background:rgba(249,115,22,0.15)">📅</div>
+        <div><div class="admin-stat-num" id="sTotalBookings">—</div><div class="admin-stat-label">Total Bookings</div></div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon" style="background:rgba(245,158,11,0.15)">💰</div>
+        <div><div class="admin-stat-num" id="sRevenue">—</div><div class="admin-stat-label">Revenue (₹)</div></div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs" style="border-radius:16px;margin-bottom:24px">
+      <button class="tab active" onclick="showAdminTab('members', this)" id="aTabMembers">👥 Members</button>
+      <button class="tab" onclick="showAdminTab('bookings', this)" id="aTabBookings">📅 Bookings</button>
+      <button class="tab" onclick="showAdminTab('contacts', this)" id="aTabContacts">💬 Contacts <span id="contactBadge" class="badge badge-danger" style="display:none">0</span></button>
+    </div>
+
+    <!-- Members Table -->
+    <div id="admin-members" class="dash-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <h3 style="margin:0"><span>👥</span> All Members</h3>
+        <input type="text" placeholder="🔍 Search members..." id="memberSearch" oninput="filterMembers()" style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 16px;color:var(--text);font-size:0.9rem;outline:none;width:250px" />
+      </div>
+      <div style="overflow-x:auto">
+        <table class="data-table" id="membersTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Member</th>
+              <th>Phone</th>
+              <th>Plan</th>
+              <th>Expires</th>
+              <th>Joined</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="membersTbody">
+            <tr><td colspan="7" style="text-align:center;padding:40px"><div class="loading" style="margin:auto"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Bookings Table -->
+    <div id="admin-bookings" class="dash-card hidden">
+      <h3 style="margin-bottom:20px"><span>📅</span> All Class Bookings</h3>
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead>
+            <tr><th>#</th><th>Member</th><th>Class</th><th>Day / Time</th><th>Trainer</th><th>Booked On</th><th>Status</th></tr>
+          </thead>
+          <tbody id="bookingsTbody">
+            <tr><td colspan="7" style="text-align:center;padding:40px"><div class="loading" style="margin:auto"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Contacts Table -->
+    <div id="admin-contacts" class="dash-card hidden">
+      <h3 style="margin-bottom:20px"><span>💬</span> Contact Messages</h3>
+      <div id="contactsList" style="display:flex;flex-direction:column;gap:16px">
+        <div class="flex-center" style="padding:40px"><div class="loading"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+<script src="js/main.js"></script>
+<script>
+  // Guard: admin only
+  const user = getUser();
+  if (!getToken() || !user) { location.href = 'index.html'; }
+
+  let allMembers = [];
+
+  async function loadAdminStats() {
+    try {
+      const stats = await apiCall('/api/admin/stats');
+      document.getElementById('sTotalMembers').textContent = stats.totalMembers;
+      document.getElementById('sActiveMembers').textContent = stats.activeMembers;
+      document.getElementById('sTotalBookings').textContent = stats.totalBookings;
+      document.getElementById('sRevenue').textContent = '₹' + stats.revenue.toLocaleString('en-IN');
+
+      if (stats.unreadContacts > 0) {
+        const badge = document.getElementById('contactBadge');
+        badge.textContent = stats.unreadContacts;
+        badge.style.display = 'inline-block';
+      }
+    } catch (err) {
+      if (err.message.includes('Admin')) {
+        showToast('Admin access required', 'error');
+        setTimeout(() => location.href = 'dashboard.html', 1500);
+      }
+    }
+  }
+
+  async function loadMembers() {
+    try {
+      allMembers = await apiCall('/api/admin/members');
+      renderMembers(allMembers);
+    } catch (e) {}
+  }
+
+  function renderMembers(members) {
+    const tbody = document.getElementById('membersTbody');
+    if (!members.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text-muted)">No members found</td></tr>';
+      return;
+    }
+    tbody.innerHTML = members.map((m, i) => `
+      <tr>
+        <td style="color:var(--text-muted)">${i + 1}</td>
+        <td>
+          <div class="table-name">${m.name}</div>
+          <div class="table-email">${m.email}</div>
+        </td>
+        <td style="color:var(--text-muted)">${m.phone || '—'}</td>
+        <td>
+          <span class="badge ${m.membership_plan && m.membership_plan !== 'none' ? 'badge-success' : 'badge-warning'}">
+            ${m.membership_plan && m.membership_plan !== 'none' ? m.membership_plan.toUpperCase() : 'None'}
+          </span>
+        </td>
+        <td style="color:var(--text-muted)">${m.membership_end || '—'}</td>
+        <td style="color:var(--text-muted)">${new Date(m.created_at).toLocaleDateString('en-IN')}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" onclick="deleteMember(${m.id}, '${m.name}')">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function filterMembers() {
+    const q = document.getElementById('memberSearch').value.toLowerCase();
+    const filtered = allMembers.filter(m => m.name.toLowerCase().includes(q) || m.email.toLowerCase().includes(q));
+    renderMembers(filtered);
+  }
+
+  async function deleteMember(id, name) {
+    if (!confirm(`Delete member "${name}"? This cannot be undone.`)) return;
+    try {
+      await apiCall(`/api/admin/members/${id}`, 'DELETE');
+      showToast(`${name} removed`);
+      loadMembers();
+      loadAdminStats();
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  }
+
+  async function loadBookings() {
+    try {
+      const bookings = await apiCall('/api/admin/bookings');
+      const tbody = document.getElementById('bookingsTbody');
+      if (!bookings.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text-muted)">No bookings yet</td></tr>';
+        return;
+      }
+      tbody.innerHTML = bookings.map((b, i) => `
+        <tr>
+          <td style="color:var(--text-muted)">${i + 1}</td>
+          <td>
+            <div class="table-name">${b.user_name}</div>
+            <div class="table-email">${b.user_email}</div>
+          </td>
+          <td>${b.class_name}</td>
+          <td style="color:var(--text-muted)">${b.day} at ${b.time}</td>
+          <td style="color:var(--text-muted)">${b.trainer}</td>
+          <td style="color:var(--text-muted)">${new Date(b.created_at).toLocaleDateString('en-IN')}</td>
+          <td><span class="badge badge-success">${b.status}</span></td>
+        </tr>
+      `).join('');
+    } catch (e) {}
+  }
+
+  async function loadContacts() {
+    try {
+      const contacts = await apiCall('/api/admin/contacts');
+      const container = document.getElementById('contactsList');
+      if (!contacts.length) {
+        container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-muted)">No messages yet</div>';
+        return;
+      }
+      container.innerHTML = contacts.map(c => `
+        <div style="background:var(--bg3);border-radius:16px;padding:24px;border-left:4px solid ${c.status === 'unread' ? 'var(--orange)' : 'var(--border)'}">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:12px">
+            <div>
+              <strong>${c.name}</strong>
+              <span style="color:var(--text-muted);font-size:0.85rem;margin-left:12px">${c.email} ${c.phone ? '• ' + c.phone : ''}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span class="badge ${c.status === 'unread' ? 'badge-warning' : 'badge-success'}">${c.status}</span>
+              <span style="color:var(--text-muted);font-size:0.8rem">${new Date(c.created_at).toLocaleString('en-IN')}</span>
+              ${c.status === 'unread' ? `<button class="btn btn-sm btn-secondary" onclick="markRead(${c.id})">Mark Read</button>` : ''}
+            </div>
+          </div>
+          <div style="font-weight:600;color:var(--purple-light);margin-bottom:6px">${c.subject}</div>
+          <div style="color:var(--text-muted)">${c.message}</div>
+        </div>
+      `).join('');
+    } catch (e) {}
+  }
+
+  async function markRead(id) {
+    try {
+      await apiCall(`/api/admin/contacts/${id}/read`, 'PUT');
+      loadContacts();
+      loadAdminStats();
+    } catch (e) {}
+  }
+
+  function showAdminTab(tab, btn) {
+    document.querySelectorAll('#admin-members, #admin-bookings, #admin-contacts').forEach(el => el.classList.add('hidden'));
+    document.getElementById(`admin-${tab}`).classList.remove('hidden');
+    document.querySelectorAll('.tabs .tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    if (tab === 'bookings') loadBookings();
+    if (tab === 'contacts') loadContacts();
+  }
+
+  // Init
+  loadAdminStats();
+  loadMembers();
+</script>
+</body>
+</html>

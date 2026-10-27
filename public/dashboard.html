@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Dashboard — Proteam Gym</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">💪</div>
+      <span class="logo-text">PROTEAM GYM</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="membership.html">Membership</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="trainers.html">Trainers</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn btn-secondary btn-sm" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      <div class="nav-avatar" id="navAvatar">U</div>
+    </div>
+  </div>
+</nav>
+
+<!-- Dashboard Header -->
+<div class="dashboard-header">
+  <div class="container">
+    <span class="section-badge">Member Portal</span>
+    <h1 style="font-size:2.5rem">Welcome back, <span class="gradient-text" id="dashName">Champion</span>! 💪</h1>
+    <p style="color:var(--text-muted);margin-top:8px">Track your progress and manage your Proteam Gym account</p>
+  </div>
+</div>
+
+<section style="padding:40px 0 80px">
+  <div class="container">
+    <div class="dashboard-grid">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-profile">
+          <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+          <div class="sidebar-name" id="sidebarName">Loading...</div>
+          <div class="sidebar-plan" id="sidebarPlan">No Plan</div>
+        </div>
+        <nav class="sidebar-nav">
+          <button class="sidebar-link active" onclick="showSection('overview')">
+            <span>📊</span><span>Overview</span>
+          </button>
+          <button class="sidebar-link" onclick="showSection('membership')">
+            <span>💳</span><span>Membership</span>
+          </button>
+          <button class="sidebar-link" onclick="showSection('bookings')">
+            <span>📅</span><span>My Bookings</span>
+          </button>
+          <button class="sidebar-link" onclick="showSection('bmi')">
+            <span>⚖️</span><span>BMI Calculator</span>
+          </button>
+          <button class="sidebar-link" onclick="showSection('profile')">
+            <span>👤</span><span>Profile</span>
+          </button>
+          <button class="sidebar-link" style="margin-top:20px;color:var(--danger)" onclick="logout()">
+            <span>🚪</span><span>Logout</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Main Content -->
+      <div class="dashboard-main">
+
+        <!-- Overview Section -->
+        <div id="section-overview">
+          <div class="dash-card">
+            <h3><span>📊</span> Your Overview</h3>
+            <div class="membership-status" id="membershipStatus">
+              <div class="status-box">
+                <div class="label">Current Plan</div>
+                <div class="value gradient-text" id="statPlan">None</div>
+              </div>
+              <div class="status-box">
+                <div class="label">Valid Until</div>
+                <div class="value" id="statExpiry">—</div>
+              </div>
+              <div class="status-box">
+                <div class="label">Days Left</div>
+                <div class="value gradient-text" id="statDaysLeft">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <h3><span>🔥</span> Quick Actions</h3>
+            <div class="grid-3" style="gap:16px">
+              <button class="hero-card" style="cursor:pointer;text-align:left;border:none;background:var(--card2)" onclick="location.href='schedule.html'">
+                <div style="font-size:1.5rem;margin-bottom:8px">📅</div>
+                <h4 style="font-size:0.95rem">Book a Class</h4>
+                <p style="font-size:0.8rem;color:var(--text-muted)">Browse the schedule</p>
+              </button>
+              <button class="hero-card" style="cursor:pointer;text-align:left;border:none;background:var(--card2)" onclick="showSection('membership')">
+                <div style="font-size:1.5rem;margin-bottom:8px">💳</div>
+                <h4 style="font-size:0.95rem">Upgrade Plan</h4>
+                <p style="font-size:0.8rem;color:var(--text-muted)">View all plans</p>
+              </button>
+              <button class="hero-card" style="cursor:pointer;text-align:left;border:none;background:var(--card2)" onclick="location.href='contact.html'">
+                <div style="font-size:1.5rem;margin-bottom:8px">💬</div>
+                <h4 style="font-size:0.95rem">Contact Us</h4>
+                <p style="font-size:0.8rem;color:var(--text-muted)">Get support</p>
+              </button>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <h3><span>📅</span> Recent Bookings</h3>
+            <div class="booking-list" id="recentBookings">
+              <div class="flex-center" style="padding:30px"><div class="loading"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Membership Section -->
+        <div id="section-membership" class="hidden">
+          <div class="dash-card">
+            <h3><span>💳</span> Membership Status</h3>
+            <div id="membershipDetail" style="padding:20px 0">Loading...</div>
+          </div>
+          <div class="dash-card">
+            <h3><span>⬆️</span> Upgrade Your Plan</h3>
+            <div class="plans-grid" style="margin-top:20px">
+              <div class="plan-card" style="padding:28px 24px">
+                <div class="plan-name">Basic</div>
+                <div class="plan-price"><span class="currency">₹</span><span class="amount" style="font-size:2.5rem">999</span><span class="period">/month</span></div>
+                <button class="btn btn-secondary" style="width:100%" onclick="location.href='membership.html'">View Details</button>
+              </div>
+              <div class="plan-card featured" style="padding:28px 24px">
+                <div class="plan-name">Standard ⭐</div>
+                <div class="plan-price"><span class="currency">₹</span><span class="amount" style="font-size:2.5rem">2499</span><span class="period">/3mo</span></div>
+                <button class="btn btn-primary" style="width:100%" onclick="location.href='membership.html'">Get Standard</button>
+              </div>
+              <div class="plan-card" style="padding:28px 24px">
+                <div class="plan-name">Premium 👑</div>
+                <div class="plan-price"><span class="currency">₹</span><span class="amount" style="font-size:2.5rem">7999</span><span class="period">/year</span></div>
+                <button class="btn btn-outline" style="width:100%" onclick="location.href='membership.html'">Go Premium</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bookings Section -->
+        <div id="section-bookings" class="hidden">
+          <div class="dash-card">
+            <h3><span>📅</span> All My Bookings</h3>
+            <div class="booking-list" id="allBookings">
+              <div class="flex-center" style="padding:30px"><div class="loading"></div></div>
+            </div>
+            <div style="margin-top:24px">
+              <a href="schedule.html" class="btn btn-primary"><i class="fas fa-plus"></i> Book New Class</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BMI Section -->
+        <div id="section-bmi" class="hidden">
+          <div class="dash-card">
+            <h3><span>⚖️</span> BMI Calculator</h3>
+            <div class="bmi-calculator" style="padding:0;background:transparent;border:none">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Weight (kg)</label>
+                  <input type="number" id="bmiWeight" placeholder="e.g. 70" />
+                </div>
+                <div class="form-group">
+                  <label>Height (cm)</label>
+                  <input type="number" id="bmiHeight" placeholder="e.g. 175" />
+                </div>
+              </div>
+              <button class="btn btn-primary" style="width:100%" onclick="calculateBMI()">
+                <i class="fas fa-calculator"></i> Calculate BMI
+              </button>
+              <div class="bmi-result" id="bmiResult">
+                <div class="bmi-value" id="bmiValue">--</div>
+                <div class="bmi-category" id="bmiCategory">--</div>
+                <div class="bmi-advice" id="bmiAdvice">--</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div id="section-profile" class="hidden">
+          <div class="dash-card">
+            <h3><span>👤</span> My Profile</h3>
+            <div style="display:flex;flex-direction:column;gap:20px;max-width:480px">
+              <div style="background:var(--bg3);padding:20px;border-radius:14px">
+                <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px">Full Name</div>
+                <div id="profName" style="font-weight:600">—</div>
+              </div>
+              <div style="background:var(--bg3);padding:20px;border-radius:14px">
+                <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px">Email</div>
+                <div id="profEmail" style="font-weight:600">—</div>
+              </div>
+              <div style="background:var(--bg3);padding:20px;border-radius:14px">
+                <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px">Phone</div>
+                <div id="profPhone" style="font-weight:600">—</div>
+              </div>
+              <div style="background:var(--bg3);padding:20px;border-radius:14px">
+                <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:4px">Member Since</div>
+                <div id="profSince" style="font-weight:600">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+<script src="js/main.js"></script>
+<script>
+  // Guard: redirect if not logged in
+  if (!getToken()) { location.href = 'index.html'; }
+
+  let userData = null;
+
+  function showSection(name) {
+    document.querySelectorAll('.dashboard-main > div').forEach(d => d.classList.add('hidden'));
+    document.getElementById(`section-${name}`).classList.remove('hidden');
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    if (name === 'bookings') loadAllBookings();
+  }
+
+  async function loadDashboard() {
+    try {
+      userData = await apiCall('/api/auth/me');
+      const user = userData;
+
+      document.getElementById('dashName').textContent = user.name.split(' ')[0];
+      document.getElementById('sidebarName').textContent = user.name;
+      document.getElementById('sidebarAvatar').textContent = user.name[0].toUpperCase();
+      document.getElementById('navAvatar').textContent = user.name[0].toUpperCase();
+
+      const plan = user.membership_plan && user.membership_plan !== 'none' ? user.membership_plan.toUpperCase() : 'No Active Plan';
+      document.getElementById('sidebarPlan').textContent = plan;
+      document.getElementById('statPlan').textContent = plan;
+
+      if (user.membership_end && user.membership_plan !== 'none') {
+        document.getElementById('statExpiry').textContent = user.membership_end;
+        const daysLeft = Math.ceil((new Date(user.membership_end) - new Date()) / (1000 * 60 * 60 * 24));
+        document.getElementById('statDaysLeft').textContent = daysLeft > 0 ? daysLeft : 'Expired';
+
+        document.getElementById('membershipDetail').innerHTML = `
+          <div class="membership-status">
+            <div class="status-box"><div class="label">Plan</div><div class="value gradient-text">${plan}</div></div>
+            <div class="status-box"><div class="label">Start Date</div><div class="value">${user.membership_start || '—'}</div></div>
+            <div class="status-box"><div class="label">End Date</div><div class="value">${user.membership_end}</div></div>
+          </div>
+        `;
+      } else {
+        document.getElementById('statExpiry').textContent = 'No membership';
+        document.getElementById('statDaysLeft').textContent = '0';
+        document.getElementById('membershipDetail').innerHTML = `
+          <div style="text-align:center;padding:30px">
+            <div style="font-size:3rem;margin-bottom:12px">💳</div>
+            <h3 style="margin-bottom:8px">No Active Membership</h3>
+            <p style="color:var(--text-muted);margin-bottom:20px">Purchase a plan to unlock all gym features and class bookings</p>
+            <a href="membership.html" class="btn btn-primary"><i class="fas fa-fire"></i> View Plans</a>
+          </div>
+        `;
+      }
+
+      // Profile section
+      document.getElementById('profName').textContent = user.name;
+      document.getElementById('profEmail').textContent = user.email;
+      document.getElementById('profPhone').textContent = user.phone || 'Not provided';
+      document.getElementById('profSince').textContent = new Date(user.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+
+      loadRecentBookings();
+    } catch (err) {
+      showToast('Session expired. Please login again.', 'error');
+      setTimeout(() => { localStorage.removeItem('proteam_token'); localStorage.removeItem('proteam_user'); location.href = 'index.html'; }, 2000);
+    }
+  }
+
+  async function loadRecentBookings() {
+    try {
+      const bookings = await apiCall('/api/classes/my-bookings');
+      const container = document.getElementById('recentBookings');
+      if (!bookings.length) {
+        container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted)">No bookings yet. <a href="schedule.html" style="color:var(--purple-light)">Book a class →</a></div>';
+        return;
+      }
+      container.innerHTML = bookings.slice(0, 5).map(b => `
+        <div class="booking-item">
+          <div class="booking-dot"></div>
+          <div class="booking-info">
+            <div class="booking-name">${b.class_name}</div>
+            <div class="booking-meta">${b.day} at ${b.time} • Trainer: ${b.trainer}</div>
+          </div>
+          <span class="badge badge-success">${b.status}</span>
+        </div>
+      `).join('');
+    } catch (e) {}
+  }
+
+  async function loadAllBookings() {
+    try {
+      const bookings = await apiCall('/api/classes/my-bookings');
+      const container = document.getElementById('allBookings');
+      if (!bookings.length) {
+        container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-muted)">No class bookings yet.</div>';
+        return;
+      }
+      container.innerHTML = bookings.map(b => `
+        <div class="booking-item">
+          <div class="booking-dot"></div>
+          <div class="booking-info">
+            <div class="booking-name">${b.class_name}</div>
+            <div class="booking-meta">${b.day} at ${b.time} • ${b.trainer} • Booked: ${new Date(b.created_at).toLocaleDateString('en-IN')}</div>
+          </div>
+          <span class="badge badge-success">${b.status}</span>
+        </div>
+      `).join('');
+    } catch (e) {}
+  }
+
+  loadDashboard();
+</script>
+</body>
+</html>

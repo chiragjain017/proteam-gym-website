@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Membership Plans — Proteam Gym</title>
+  <meta name="description" content="Choose the perfect Proteam Gym membership plan. Basic, Standard, and Premium plans with exclusive benefits. Start your fitness journey today." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">💪</div>
+      <span class="logo-text">PROTEAM GYM</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="membership.html" class="active">Membership</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="trainers.html">Trainers</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions" id="navActions">
+      <div id="navGuest">
+        <button class="btn btn-primary btn-sm" onclick="openAuthModal('login')">Login</button>
+      </div>
+      <div id="navUser" class="hidden" style="display:none;align-items:center;gap:12px">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
+        <div class="nav-avatar" id="navAvatar" onclick="location.href='dashboard.html'">U</div>
+      </div>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <span class="section-badge">Pricing</span>
+    <h1 class="gradient-text">MEMBERSHIP PLANS</h1>
+    <p>Choose your plan and start your transformation journey today</p>
+  </div>
+</div>
+
+<section class="plans-section">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:60px">
+      <span class="section-badge">Flexible Plans</span>
+      <h2 class="section-title">Invest In <span class="gradient-text">Your Health</span></h2>
+      <p style="color:var(--text-muted)">All plans include access to main gym floor, locker rooms, and basic amenities</p>
+    </div>
+
+    <div class="plans-grid">
+      <!-- Basic -->
+      <div class="plan-card fade-up">
+        <span class="plan-badge">STARTER</span>
+        <div class="plan-name">Basic Plan</div>
+        <div style="color:var(--text-muted);font-size:0.9rem">Perfect for beginners</div>
+        <div class="plan-price">
+          <span class="currency">₹</span>
+          <span class="amount">999</span>
+          <span class="period">/ month</span>
+        </div>
+        <ul class="plan-features">
+          <li><span class="check">✅</span> Gym Floor Access (6AM–10PM)</li>
+          <li><span class="check">✅</span> Locker Room & Showers</li>
+          <li><span class="check">✅</span> 2 Group Classes/Month</li>
+          <li><span class="check">✅</span> BMI & Fitness Assessment</li>
+          <li><span class="check">✅</span> Mobile App Access</li>
+          <li class="disabled"><span class="cross">❌</span> Personal Training Sessions</li>
+          <li class="disabled"><span class="cross">❌</span> Nutrition Consulting</li>
+          <li class="disabled"><span class="cross">❌</span> Unlimited Group Classes</li>
+        </ul>
+        <button class="btn btn-secondary" style="width:100%" onclick="purchasePlan('basic')">
+          Get Started <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Standard -->
+      <div class="plan-card featured fade-up stagger-1" style="position:relative">
+        <div class="plan-most-popular">⭐ MOST POPULAR</div>
+        <span class="plan-badge">PRO</span>
+        <div class="plan-name">Standard Plan</div>
+        <div style="color:var(--text-muted);font-size:0.9rem">Best value for serious trainers</div>
+        <div class="plan-price">
+          <span class="currency">₹</span>
+          <span class="amount">2499</span>
+          <span class="period">/ 3 months</span>
+        </div>
+        <ul class="plan-features">
+          <li><span class="check">✅</span> Gym Floor Access (5AM–11PM)</li>
+          <li><span class="check">✅</span> Locker Room & Showers</li>
+          <li><span class="check">✅</span> Unlimited Group Classes</li>
+          <li><span class="check">✅</span> BMI & Fitness Assessment</li>
+          <li><span class="check">✅</span> Mobile App Access</li>
+          <li><span class="check">✅</span> 2 Personal Training Sessions</li>
+          <li><span class="check">✅</span> Basic Nutrition Guidance</li>
+          <li class="disabled"><span class="cross">❌</span> Priority Booking</li>
+        </ul>
+        <button class="btn btn-primary" style="width:100%" onclick="purchasePlan('standard')">
+          <i class="fas fa-fire"></i> Choose Standard
+        </button>
+      </div>
+
+      <!-- Premium -->
+      <div class="plan-card fade-up stagger-2">
+        <span class="plan-badge" style="background:linear-gradient(135deg,#F59E0B,#D97706)">ELITE</span>
+        <div class="plan-name">Premium Plan</div>
+        <div style="color:var(--text-muted);font-size:0.9rem">All-inclusive annual membership</div>
+        <div class="plan-price">
+          <span class="currency">₹</span>
+          <span class="amount">7999</span>
+          <span class="period">/ year</span>
+        </div>
+        <ul class="plan-features">
+          <li><span class="check">✅</span> 24/7 Gym Floor Access</li>
+          <li><span class="check">✅</span> Premium Locker (dedicated)</li>
+          <li><span class="check">✅</span> Unlimited Group Classes</li>
+          <li><span class="check">✅</span> Monthly Fitness Assessment</li>
+          <li><span class="check">✅</span> Mobile App (Premium Features)</li>
+          <li><span class="check">✅</span> 12 Personal Training Sessions</li>
+          <li><span class="check">✅</span> Full Nutrition Consulting</li>
+          <li><span class="check">✅</span> Priority Class Booking</li>
+        </ul>
+        <button class="btn btn-outline" style="width:100%" onclick="purchasePlan('premium')">
+          Go Elite <i class="fas fa-crown"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Features Comparison Table -->
+    <div style="margin-top:80px">
+      <h3 class="text-center section-title" style="font-size:2rem;margin-bottom:40px">Full <span class="gradient-text">Feature Comparison</span></h3>
+      <div style="overflow-x:auto;border-radius:20px;border:1px solid var(--border)">
+        <table class="data-table" style="background:var(--card)">
+          <thead>
+            <tr>
+              <th style="width:40%">Feature</th>
+              <th class="text-center">Basic</th>
+              <th class="text-center" style="background:rgba(124,58,237,0.08)">Standard ⭐</th>
+              <th class="text-center">Premium</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Monthly Cost</td><td class="text-center">₹999/mo</td><td class="text-center" style="background:rgba(124,58,237,0.05)">₹833/mo</td><td class="text-center">₹667/mo</td></tr>
+            <tr><td>Gym Access Hours</td><td class="text-center">6AM–10PM</td><td class="text-center" style="background:rgba(124,58,237,0.05)">5AM–11PM</td><td class="text-center">24/7</td></tr>
+            <tr><td>Group Classes</td><td class="text-center">2/Month</td><td class="text-center" style="background:rgba(124,58,237,0.05)">Unlimited</td><td class="text-center">Unlimited</td></tr>
+            <tr><td>Personal Training</td><td class="text-center">❌</td><td class="text-center" style="background:rgba(124,58,237,0.05)">2 sessions</td><td class="text-center">12 sessions</td></tr>
+            <tr><td>Nutrition Consulting</td><td class="text-center">❌</td><td class="text-center" style="background:rgba(124,58,237,0.05)">Basic</td><td class="text-center">Full</td></tr>
+            <tr><td>Priority Booking</td><td class="text-center">❌</td><td class="text-center" style="background:rgba(124,58,237,0.05)">❌</td><td class="text-center">✅</td></tr>
+            <tr><td>Guest Passes</td><td class="text-center">❌</td><td class="text-center" style="background:rgba(124,58,237,0.05)">2/month</td><td class="text-center">5/month</td></tr>
+            <tr><td>Sauna Access</td><td class="text-center">❌</td><td class="text-center" style="background:rgba(124,58,237,0.05)">Weekends</td><td class="text-center">✅ Daily</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div style="margin-top:80px;max-width:800px;margin-left:auto;margin-right:auto">
+      <h3 class="text-center section-title" style="font-size:2rem;margin-bottom:40px">Common <span class="gradient-text">Questions</span></h3>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <details style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;cursor:pointer">
+          <summary style="font-weight:600;font-size:1rem">Can I cancel my membership anytime?</summary>
+          <p style="margin-top:12px;color:var(--text-muted)">Basic and Standard plans can be cancelled at the end of their term. Premium annual plans include a 30-day money-back guarantee.</p>
+        </details>
+        <details style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;cursor:pointer">
+          <summary style="font-weight:600;font-size:1rem">Is there a joining fee?</summary>
+          <p style="margin-top:12px;color:var(--text-muted)">No joining fee! The price you see is all you pay. We believe in complete transparency.</p>
+        </details>
+        <details style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;cursor:pointer">
+          <summary style="font-weight:600;font-size:1rem">Can I freeze my membership?</summary>
+          <p style="margin-top:12px;color:var(--text-muted)">Standard and Premium members can freeze their membership for up to 30 days per year (e.g., for travel or injury).</p>
+        </details>
+        <details style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;cursor:pointer">
+          <summary style="font-weight:600;font-size:1rem">What payment methods do you accept?</summary>
+          <p style="margin-top:12px;color:var(--text-muted)">We accept cash, UPI (GPay, PhonePe, Paytm), debit/credit cards, and net banking.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Payment Modal -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closePaymentModal()">✕</button>
+    <h2>💳 Complete Purchase</h2>
+    <p id="paymentPlanDesc">Activating your plan...</p>
+    <div class="form-group">
+      <label>Payment Method</label>
+      <select id="paymentMethod">
+        <option value="upi">📱 UPI (GPay / PhonePe / Paytm)</option>
+        <option value="card">💳 Debit / Credit Card</option>
+        <option value="cash">💵 Cash at Reception</option>
+        <option value="netbanking">🏦 Net Banking</option>
+      </select>
+    </div>
+    <div id="upiDetails" style="background:var(--bg3);border-radius:14px;padding:20px;text-align:center;margin-bottom:20px">
+      <div style="font-size:2rem;margin-bottom:8px">📱</div>
+      <div style="font-weight:700;margin-bottom:4px">UPI ID: proteamgym@upi</div>
+      <div style="color:var(--text-muted);font-size:0.85rem">Pay and confirm below</div>
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="confirmPurchase()" id="confirmPayBtn">
+      <i class="fas fa-check-circle"></i> Confirm & Activate Plan
+    </button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <div class="tabs">
+      <button class="tab active" id="loginTab" onclick="switchTab('login')">Login</button>
+      <button class="tab" id="registerTab" onclick="switchTab('register')">Register</button>
+    </div>
+    <div id="loginForm">
+      <h2>Welcome Back 💪</h2>
+      <p>Sign in to purchase a plan</p>
+      <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="your@email.com" /></div>
+      <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••" /></div>
+      <button class="btn btn-primary" style="width:100%" onclick="handleLogin()" id="loginSubmit"><i class="fas fa-sign-in-alt"></i> Login</button>
+      <div class="auth-switch">New? <a onclick="switchTab('register')">Create account</a></div>
+    </div>
+    <div id="registerForm" class="hidden">
+      <h2>Join Today 🔥</h2>
+      <p>Create your free account</p>
+      <div class="form-group"><label>Full Name</label><input type="text" id="regName" placeholder="John Doe" /></div>
+      <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="your@email.com" /></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="regPhone" placeholder="+91 98765 43210" /></div>
+      <div class="form-group"><label>Password</label><input type="password" id="regPassword" placeholder="Min. 6 chars" /></div>
+      <button class="btn btn-primary" style="width:100%" onclick="handleRegister()" id="registerSubmit"><i class="fas fa-user-plus"></i> Create Account</button>
+      <div class="auth-switch">Have account? <a onclick="switchTab('login')">Login</a></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div style="text-align:center;padding:20px 0;color:var(--text-muted)">
+      <div class="nav-logo" style="justify-content:center;margin-bottom:12px">
+        <div class="logo-icon">💪</div>
+        <span class="logo-text">PROTEAM GYM</span>
+      </div>
+      <p>© 2024 Proteam Gym. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script src="js/main.js"></script>
+<script>
+  let pendingPlan = null;
+
+  function purchasePlan(plan) {
+    if (!getToken()) {
+      showToast('Please login first to purchase a plan', 'info');
+      openAuthModal('login');
+      return;
+    }
+    const details = {
+      basic: { label: 'Basic Plan', price: '₹999 / 1 month' },
+      standard: { label: 'Standard Plan', price: '₹2499 / 3 months' },
+      premium: { label: 'Premium Plan', price: '₹7999 / 12 months' }
+    };
+    pendingPlan = plan;
+    document.getElementById('paymentPlanDesc').textContent = `${details[plan].label} — ${details[plan].price}`;
+    document.getElementById('paymentModal').classList.add('open');
+  }
+
+  function closePaymentModal() {
+    document.getElementById('paymentModal').classList.remove('open');
+    pendingPlan = null;
+  }
+
+  document.getElementById('paymentMethod').addEventListener('change', function() {
+    document.getElementById('upiDetails').style.display = this.value === 'upi' ? 'block' : 'none';
+  });
+
+  async function confirmPurchase() {
+    if (!pendingPlan) return;
+    const btn = document.getElementById('confirmPayBtn');
+    const method = document.getElementById('paymentMethod').value;
+
+    btn.innerHTML = '<span class="loading"></span> Processing...';
+    btn.disabled = true;
+
+    try {
+      const data = await apiCall('/api/membership/purchase', 'POST', { plan: pendingPlan, payment_method: method });
+      closePaymentModal();
+      showToast(`🎉 ${data.message} Valid until ${data.end_date}`);
+      // Update local user
+      const user = getUser();
+      if (user) { user.membership_plan = pendingPlan; localStorage.setItem('proteam_user', JSON.stringify(user)); }
+      setTimeout(() => location.href = 'dashboard.html', 1500);
+    } catch (err) {
+      showToast(err.message, 'error');
+      btn.innerHTML = '<i class="fas fa-check-circle"></i> Confirm & Activate Plan';
+      btn.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>

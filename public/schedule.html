@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class Schedule — Proteam Gym</title>
+  <meta name="description" content="Browse Proteam Gym's weekly class schedule. Book PowerLifting, HIIT Cardio, Yoga, CrossFit, Boxing and more with our certified trainers." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">💪</div>
+      <span class="logo-text">PROTEAM GYM</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="membership.html">Membership</a></li>
+      <li><a href="schedule.html" class="active">Schedule</a></li>
+      <li><a href="trainers.html">Trainers</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions" id="navActions">
+      <div id="navGuest"><button class="btn btn-primary btn-sm" onclick="openAuthModal('login')">Login</button></div>
+      <div id="navUser" class="hidden" style="display:none;align-items:center;gap:12px">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
+        <div class="nav-avatar" id="navAvatar" onclick="location.href='dashboard.html'">U</div>
+      </div>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <span class="section-badge">Weekly Classes</span>
+    <h1 class="gradient-text">CLASS SCHEDULE</h1>
+    <p>Browse and book from 50+ weekly classes across all fitness disciplines</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <!-- Filters -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:40px">
+      <div class="schedule-filters" id="dayFilters">
+        <button class="filter-btn active" onclick="filterClasses('all', this)">All Days</button>
+        <button class="filter-btn" onclick="filterClasses('Monday', this)">Mon</button>
+        <button class="filter-btn" onclick="filterClasses('Tuesday', this)">Tue</button>
+        <button class="filter-btn" onclick="filterClasses('Wednesday', this)">Wed</button>
+        <button class="filter-btn" onclick="filterClasses('Thursday', this)">Thu</button>
+        <button class="filter-btn" onclick="filterClasses('Friday', this)">Fri</button>
+        <button class="filter-btn" onclick="filterClasses('Saturday', this)">Sat</button>
+        <button class="filter-btn" onclick="filterClasses('Sunday', this)">Sun</button>
+      </div>
+      <div class="schedule-filters">
+        <button class="filter-btn active" onclick="filterByCategory('all', this)" id="catAll">All Types</button>
+        <button class="filter-btn" onclick="filterByCategory('strength', this)">💪 Strength</button>
+        <button class="filter-btn" onclick="filterByCategory('cardio', this)">🔥 Cardio</button>
+        <button class="filter-btn" onclick="filterByCategory('yoga', this)">🧘 Yoga</button>
+        <button class="filter-btn" onclick="filterByCategory('crossfit', this)">⚡ CrossFit</button>
+        <button class="filter-btn" onclick="filterByCategory('combat', this)">🥊 Combat</button>
+      </div>
+    </div>
+
+    <!-- Class Count -->
+    <div style="margin-bottom:24px;color:var(--text-muted);font-size:0.9rem">
+      Showing <strong id="classCount" style="color:var(--text)">0</strong> classes
+    </div>
+
+    <!-- Classes Grid -->
+    <div class="class-grid" id="classesGrid">
+      <div class="flex-center" style="grid-column:1/-1;padding:80px">
+        <div class="loading"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Info Banner -->
+<section style="background:var(--bg2);padding:60px 0">
+  <div class="container">
+    <div class="grid-3">
+      <div style="text-align:center;padding:30px">
+        <div style="font-size:3rem;margin-bottom:16px">📅</div>
+        <h3 style="margin-bottom:8px">Easy Online Booking</h3>
+        <p style="color:var(--text-muted)">Book your spot in any class with one click. No calling required.</p>
+      </div>
+      <div style="text-align:center;padding:30px">
+        <div style="font-size:3rem;margin-bottom:16px">⏰</div>
+        <h3 style="margin-bottom:8px">Cancel 2hrs Before</h3>
+        <p style="color:var(--text-muted)">Plans change. Cancel any booking up to 2 hours before class starts.</p>
+      </div>
+      <div style="text-align:center;padding:30px">
+        <div style="font-size:3rem;margin-bottom:16px">👥</div>
+        <h3 style="margin-bottom:8px">Limited Spots</h3>
+        <p style="color:var(--text-muted)">Each class has limited capacity to ensure quality coaching for all.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <div class="tabs">
+      <button class="tab active" id="loginTab" onclick="switchTab('login')">Login</button>
+      <button class="tab" id="registerTab" onclick="switchTab('register')">Register</button>
+    </div>
+    <div id="loginForm">
+      <h2>Login to Book 💪</h2>
+      <p>Sign in to reserve your spot</p>
+      <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="your@email.com" /></div>
+      <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••" /></div>
+      <button class="btn btn-primary" style="width:100%" onclick="handleLogin()" id="loginSubmit"><i class="fas fa-sign-in-alt"></i> Login</button>
+      <div class="auth-switch">New? <a onclick="switchTab('register')">Create account</a></div>
+    </div>
+    <div id="registerForm" class="hidden">
+      <h2>Join & Book 🔥</h2>
+      <p>Create your free account</p>
+      <div class="form-group"><label>Full Name</label><input type="text" id="regName" placeholder="John Doe" /></div>
+      <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="your@email.com" /></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="regPhone" placeholder="+91 98765 43210" /></div>
+      <div class="form-group"><label>Password</label><input type="password" id="regPassword" placeholder="Min. 6 chars" /></div>
+      <button class="btn btn-primary" style="width:100%" onclick="handleRegister()" id="registerSubmit"><i class="fas fa-user-plus"></i> Create Account</button>
+      <div class="auth-switch">Have account? <a onclick="switchTab('login')">Login</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="js/main.js"></script>
+<script>
+  let allClasses = [];
+  let activeDayFilter = 'all';
+  let activeCatFilter = 'all';
+
+  async function loadClasses() {
+    try {
+      const res = await fetch('/api/classes');
+      allClasses = await res.json();
+      renderClasses();
+    } catch (e) {
+      document.getElementById('classesGrid').innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center">Failed to load classes. Make sure the server is running.</p>';
+    }
+  }
+
+  function renderClasses() {
+    let filtered = allClasses;
+    if (activeDayFilter !== 'all') filtered = filtered.filter(c => c.day === activeDayFilter);
+    if (activeCatFilter !== 'all') filtered = filtered.filter(c => c.category === activeCatFilter);
+
+    document.getElementById('classCount').textContent = filtered.length;
+    const grid = document.getElementById('classesGrid');
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted)"><div style="font-size:3rem;margin-bottom:16px">😔</div><p>No classes match your filters</p></div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(c => renderClassCard(c)).join('');
+    // Re-observe for animations
+    setTimeout(() => {
+      document.querySelectorAll('.fade-up:not(.visible)').forEach(el => {
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+        }, { threshold: 0.05 });
+        obs.observe(el);
+      });
+    }, 50);
+  }
+
+  function filterClasses(day, btn) {
+    activeDayFilter = day;
+    document.querySelectorAll('#dayFilters .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderClasses();
+  }
+
+  function filterByCategory(cat, btn) {
+    activeCatFilter = cat;
+    document.querySelectorAll('.schedule-filters:last-child .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderClasses();
+  }
+
+  loadClasses();
+</script>
+</body>
+</html>

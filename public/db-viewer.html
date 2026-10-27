@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🗄️ DB Viewer — Proteam Gym</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0f0f13; color: #e2e8f0; min-height: 100vh; }
+
+    .topbar {
+      background: #1a1a2e;
+      border-bottom: 1px solid #2d2d4e;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .topbar h1 { font-size: 1.3rem; color: #a78bfa; }
+    .topbar p { font-size: 0.85rem; color: #64748b; margin-left: auto; }
+
+    .layout { display: flex; min-height: calc(100vh - 57px); }
+
+    /* Sidebar */
+    .sidebar {
+      width: 200px;
+      background: #13131f;
+      border-right: 1px solid #2d2d4e;
+      padding: 20px 0;
+      flex-shrink: 0;
+    }
+    .sidebar-label { font-size: 0.7rem; color: #4a5568; text-transform: uppercase; letter-spacing: 1px; padding: 0 20px 10px; }
+    .table-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 20px;
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 0.9rem;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .table-btn:hover { background: #1e1e30; color: #e2e8f0; }
+    .table-btn.active { background: #2d1f63; color: #a78bfa; border-right: 3px solid #7c3aed; }
+    .table-btn .count {
+      margin-left: auto;
+      background: #2d2d4e;
+      border-radius: 10px;
+      padding: 2px 8px;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+    .table-btn.active .count { background: #4c1d95; color: #c4b5fd; }
+
+    /* Main */
+    .main { flex: 1; padding: 28px; overflow: auto; }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .toolbar h2 { font-size: 1.2rem; color: #e2e8f0; }
+    .toolbar .row-count { font-size: 0.85rem; color: #64748b; background: #1e1e30; padding: 4px 12px; border-radius: 20px; }
+    .search-box {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .search-box input {
+      background: #1e1e30;
+      border: 1px solid #2d2d4e;
+      border-radius: 8px;
+      padding: 8px 14px;
+      color: #e2e8f0;
+      font-size: 0.85rem;
+      width: 200px;
+      outline: none;
+    }
+    .search-box input:focus { border-color: #7c3aed; }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-danger { background: #7f1d1d; color: #fca5a5; }
+    .btn-danger:hover { background: #991b1b; }
+    .btn-primary { background: #4c1d95; color: #c4b5fd; }
+    .btn-primary:hover { background: #5b21b6; }
+    .btn-sm { padding: 5px 10px; font-size: 0.78rem; border-radius: 6px; }
+    .btn-icon { background: none; border: 1px solid #2d2d4e; color: #94a3b8; padding: 5px 9px; }
+    .btn-icon:hover { border-color: #ef4444; color: #ef4444; }
+
+    /* Table */
+    .table-wrapper {
+      border: 1px solid #2d2d4e;
+      border-radius: 12px;
+      overflow: auto;
+      background: #13131f;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    thead th {
+      background: #1a1a2e;
+      padding: 12px 16px;
+      text-align: left;
+      color: #7c3aed;
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #2d2d4e;
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid #1e1e30; transition: background 0.15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #1a1a2e; }
+    tbody td { padding: 11px 16px; color: #cbd5e1; vertical-align: middle; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    tbody td.id-col { color: #4a5568; font-size: 0.78rem; width: 40px; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge-green { background: #14532d; color: #86efac; }
+    .badge-blue { background: #1e3a5f; color: #93c5fd; }
+    .badge-purple { background: #3b0764; color: #d8b4fe; }
+    .badge-gray { background: #1e293b; color: #94a3b8; }
+    .badge-red { background: #7f1d1d; color: #fca5a5; }
+
+    .empty-state {
+      padding: 60px;
+      text-align: center;
+      color: #4a5568;
+    }
+    .empty-state i { font-size: 3rem; margin-bottom: 12px; display: block; }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: #1a1a2e;
+      border: 1px solid #2d2d4e;
+      border-radius: 16px;
+      padding: 28px;
+      max-width: 400px;
+      width: 90%;
+    }
+    .modal h3 { font-size: 1.1rem; margin-bottom: 8px; color: #fca5a5; }
+    .modal p { font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 999;
+      display: none;
+      animation: slideUp 0.3s ease;
+    }
+    .toast.show { display: block; }
+    .toast.success { background: #14532d; color: #86efac; border: 1px solid #166534; }
+    .toast.error { background: #7f1d1d; color: #fca5a5; border: 1px solid #991b1b; }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .loading-spinner { text-align: center; padding: 40px; color: #4a5568; }
+    .loading-spinner i { font-size: 2rem; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <i class="fas fa-database" style="color:#7c3aed;font-size:1.4rem"></i>
+  <h1>Proteam Gym — Database Viewer</h1>
+  <p id="lastRefresh">Admin access only</p>
+  <a href="index.html" style="color:#64748b;font-size:0.85rem;text-decoration:none;margin-left:16px">← Back to Site</a>
+</div>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-label">Tables</div>
+    <button class="table-btn active" onclick="loadTable('users')" id="btn-users">
+      <i class="fas fa-users"></i> Users <span class="count" id="cnt-users">…</span>
+    </button>
+    <button class="table-btn" onclick="loadTable('memberships')" id="btn-memberships">
+      <i class="fas fa-id-card"></i> Memberships <span class="count" id="cnt-memberships">…</span>
+    </button>
+    <button class="table-btn" onclick="loadTable('bookings')" id="btn-bookings">
+      <i class="fas fa-calendar-check"></i> Bookings <span class="count" id="cnt-bookings">…</span>
+    </button>
+    <button class="table-btn" onclick="loadTable('classes')" id="btn-classes">
+      <i class="fas fa-dumbbell"></i> Classes <span class="count" id="cnt-classes">…</span>
+    </button>
+    <button class="table-btn" onclick="loadTable('trainers')" id="btn-trainers">
+      <i class="fas fa-person-running"></i> Trainers <span class="count" id="cnt-trainers">…</span>
+    </button>
+    <button class="table-btn" onclick="loadTable('contacts')" id="btn-contacts">
+      <i class="fas fa-envelope"></i> Contacts <span class="count" id="cnt-contacts">…</span>
+    </button>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="toolbar">
+      <h2 id="tableTitle">Users</h2>
+      <span class="row-count" id="rowCount">0 rows</span>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 Search..." oninput="filterTable()" />
+        <button class="btn btn-primary" onclick="refreshCurrentTable()">
+          <i class="fas fa-rotate-right"></i> Refresh
+        </button>
+      </div>
+    </div>
+
+    <div class="table-wrapper" id="tableWrapper">
+      <div class="loading-spinner"><i class="fas fa-circle-notch"></i><p style="margin-top:12px">Loading...</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <h3><i class="fas fa-triangle-exclamation"></i> Confirm Delete</h3>
+    <p id="deleteModalMsg">Are you sure you want to delete this record? This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="closeDeleteModal()">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmDelete()"><i class="fas fa-trash"></i> Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const API = '';
+  let currentTable = 'users';
+  let currentData = [];
+  let deleteTarget = null;
+
+  // ── Column configs per table ────────────────────────────────────────────────
+  const tableConfig = {
+    users: {
+      title: 'Users',
+      endpoint: '/api/admin/users',
+      deleteEndpoint: id => `/api/admin/users/${id}`,
+      columns: ['id','name','email','phone','role','membership_plan','membership_end','created_at'],
+      badges: { role: { admin:'purple', member:'blue' }, membership_plan: { premium:'green', standard:'blue', basic:'gray', none:'gray' } }
+    },
+    memberships: {
+      title: 'Memberships',
+      endpoint: '/api/admin/memberships',
+      deleteEndpoint: id => `/api/admin/memberships/${id}`,
+      columns: ['id','user_id','plan','price','start_date','end_date','status','payment_method','created_at'],
+      badges: { status: { active:'green', expired:'red', cancelled:'gray' }, plan: { premium:'purple', standard:'blue', basic:'gray' } }
+    },
+    bookings: {
+      title: 'Bookings',
+      endpoint: '/api/admin/bookings',
+      deleteEndpoint: id => `/api/admin/bookings/${id}`,
+      columns: ['id','user_name','user_email','class_name','booking_date','status','created_at'],
+      badges: { status: { confirmed:'green', cancelled:'red', pending:'gray' } }
+    },
+    classes: {
+      title: 'Classes',
+      endpoint: '/api/classes',
+      deleteEndpoint: id => `/api/admin/classes/${id}`,
+      columns: ['id','name','trainer','day','time','duration','max_capacity','current_enrolled','category'],
+      badges: { category: { strength:'red', cardio:'blue', yoga:'green', crossfit:'purple', combat:'gray', general:'gray' } }
+    },
+    trainers: {
+      title: 'Trainers',
+      endpoint: '/api/trainers',
+      deleteEndpoint: id => `/api/admin/trainers/${id}`,
+      columns: ['id','name','specialization','experience','rating','instagram'],
+      badges: {}
+    },
+    contacts: {
+      title: 'Contacts',
+      endpoint: '/api/admin/contacts',
+      deleteEndpoint: id => `/api/admin/contacts/${id}`,
+      columns: ['id','name','email','phone','subject','message','status','created_at'],
+      badges: { status: { unread:'red', read:'green' } }
+    }
+  };
+
+  // ── Auth: get admin token ───────────────────────────────────────────────────
+  let adminToken = localStorage.getItem('token');
+
+  async function ensureAdminToken() {
+    if (adminToken) return adminToken;
+    // Prompt for admin login
+    const email = prompt('Admin Email:', 'admin@proteamgym.com');
+    const password = prompt('Admin Password:', '');
+    if (!email || !password) return null;
+    try {
+      const r = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const d = await r.json();
+      if (d.token) {
+        adminToken = d.token;
+        localStorage.setItem('token', d.token);
+        return adminToken;
+      }
+      showToast('Login failed: ' + (d.error || 'Unknown error'), 'error');
+      return null;
+    } catch (e) {
+      showToast('Login error', 'error');
+      return null;
+    }
+  }
+
+  // ── Load a table ────────────────────────────────────────────────────────────
+  async function loadTable(name) {
+    currentTable = name;
+    document.getElementById('searchInput').value = '';
+    document.querySelectorAll('.table-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + name).classList.add('active');
+    document.getElementById('tableTitle').textContent = tableConfig[name].title;
+    document.getElementById('tableWrapper').innerHTML = '<div class="loading-spinner"><i class="fas fa-circle-notch"></i><p style="margin-top:12px">Loading...</p></div>';
+
+    const token = await ensureAdminToken();
+    if (!token) return;
+
+    try {
+      const res = await fetch(tableConfig[name].endpoint, {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      const data = await res.json();
+      currentData = Array.isArray(data) ? data : (data.users || data.bookings || data.memberships || []);
+      renderTable(currentData, name);
+      updateCount(name, currentData.length);
+    } catch (e) {
+      document.getElementById('tableWrapper').innerHTML = '<div class="empty-state"><i class="fas fa-triangle-exclamation"></i>Failed to load data</div>';
+    }
+  }
+
+  // ── Render table HTML ───────────────────────────────────────────────────────
+  function renderTable(data, name) {
+    const config = tableConfig[name];
+    const cols = config.columns;
+    document.getElementById('rowCount').textContent = data.length + ' row' + (data.length !== 1 ? 's' : '');
+
+    if (!data.length) {
+      document.getElementById('tableWrapper').innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i>No records found</div>';
+      return;
+    }
+
+    const headers = cols.map(c => `<th>${c.replace(/_/g,' ')}</th>`).join('') + '<th>Action</th>';
+    const rows = data.map(row => {
+      const cells = cols.map(col => {
+        let val = row[col];
+        if (val === null || val === undefined) val = '—';
+        const badgeMap = config.badges[col];
+        if (badgeMap) {
+          const cls = badgeMap[String(val).toLowerCase()] || 'gray';
+          return `<td><span class="badge badge-${cls}">${val}</span></td>`;
+        }
+        // Truncate long text
+        const display = String(val).length > 40 ? String(val).slice(0, 40) + '…' : String(val);
+        const idCol = col === 'id' ? ' class="id-col"' : '';
+        return `<td${idCol} title="${String(val)}">${display}</td>`;
+      }).join('');
+      return `<tr>
+        ${cells}
+        <td>
+          <button class="btn btn-icon btn-sm" onclick="askDelete('${name}', ${row.id}, '${(row.name || row.user_name || row.class_name || '').replace(/'/g,"\\'")}')">
+            <i class="fas fa-trash-can"></i>
+          </button>
+        </td>
+      </tr>`;
+    }).join('');
+
+    document.getElementById('tableWrapper').innerHTML = `
+      <table>
+        <thead><tr>${headers}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }
+
+  // ── Search/filter ───────────────────────────────────────────────────────────
+  function filterTable() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = currentData.filter(row =>
+      Object.values(row).some(v => String(v).toLowerCase().includes(q))
+    );
+    renderTable(filtered, currentTable);
+  }
+
+  // ── Delete flow ─────────────────────────────────────────────────────────────
+  function askDelete(table, id, label) {
+    deleteTarget = { table, id, label };
+    document.getElementById('deleteModalMsg').textContent =
+      `Delete ${table.slice(0,-1)} "${label || id}" (ID: ${id})? This cannot be undone.`;
+    document.getElementById('deleteModal').classList.add('show');
+  }
+
+  function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('show');
+    deleteTarget = null;
+  }
+
+  async function confirmDelete() {
+    if (!deleteTarget) return;
+    const { table, id } = deleteTarget;
+    closeDeleteModal();
+
+    const token = await ensureAdminToken();
+    if (!token) return;
+
+    try {
+      const endpoint = tableConfig[table].deleteEndpoint(id);
+      const res = await fetch(endpoint, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (res.ok) {
+        showToast(`✅ Deleted record #${id} from ${table}`, 'success');
+        loadTable(table);
+      } else {
+        const err = await res.json();
+        showToast('Error: ' + (err.error || 'Delete failed'), 'error');
+      }
+    } catch (e) {
+      showToast('Network error', 'error');
+    }
+  }
+
+  // ── Counts ──────────────────────────────────────────────────────────────────
+  function updateCount(table, count) {
+    document.getElementById('cnt-' + table).textContent = count;
+  }
+
+  async function loadAllCounts() {
+    const token = await ensureAdminToken();
+    if (!token) return;
+    for (const [name, cfg] of Object.entries(tableConfig)) {
+      try {
+        const res = await fetch(cfg.endpoint, { headers: { 'Authorization': 'Bearer ' + token } });
+        const data = await res.json();
+        const arr = Array.isArray(data) ? data : (data.users || data.bookings || data.memberships || []);
+        updateCount(name, arr.length);
+      } catch {}
+    }
+  }
+
+  function refreshCurrentTable() { loadTable(currentTable); }
+
+  // ── Toast ───────────────────────────────────────────────────────────────────
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + type;
+    setTimeout(() => t.className = 'toast', 3000);
+  }
+
+  // ── Init ────────────────────────────────────────────────────────────────────
+  document.getElementById('lastRefresh').textContent = 'Last loaded: ' + new Date().toLocaleTimeString();
+  loadTable('users');
+  loadAllCounts();
+</script>
+</body>
+</html>

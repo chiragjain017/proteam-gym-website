@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Proteam Gym — Web Development Poster A3</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Inter', 'Arial', sans-serif;
+    background: #888;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  /* A3 Landscape 420mm × 297mm  ≈ 1587 × 1123 px at 96dpi */
+  .poster {
+    width: 1587px;
+    background: #fff;
+    box-shadow: 0 6px 40px rgba(0,0,0,0.45);
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #1a1a1a;
+  }
+
+  /* ══════ HEADER ══════ */
+  .hdr {
+    background: #4a1942;
+    display: flex;
+    align-items: stretch;
+    border-bottom: 4px solid #c8a84b;
+  }
+  .hdr-left {
+    padding: 16px 22px 14px;
+    flex: 1;
+    border-right: 2px solid #6b2960;
+  }
+  .hdr-title {
+    font-size: 38px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 2px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .hdr-sub {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e8c96a;
+    margin-top: 4px;
+  }
+  .hdr-tag {
+    font-size: 10px;
+    color: #c4a8c0;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+  }
+  .hdr-right {
+    padding: 14px 24px;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+  }
+  .info-row {
+    display: grid;
+    grid-template-columns: 115px 12px 1fr;
+    align-items: center;
+    font-size: 11px;
+  }
+  .info-lbl { color: #d4b8d0; text-transform: uppercase; letter-spacing: 0.6px; font-size: 10px; }
+  .info-col { color: #e8c96a; font-weight: 700; }
+  .info-val { color: #e8c96a; font-weight: 800; font-size: 12px; letter-spacing: 0.3px; }
+
+  /* ══════ BODY ══════ */
+  .body {
+    display: grid;
+    grid-template-columns: 490px 1fr 460px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .col {
+    padding: 14px 16px;
+    border-right: 1.5px solid #ddd;
+  }
+  .col:last-child { border-right: none; }
+
+  /* Column heading strips */
+  .col-heading {
+    background: #4a1942;
+    color: #fff;
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    margin: 0 -16px 12px;
+    border-top: 2px solid #c8a84b;
+    border-bottom: 2px solid #c8a84b;
+  }
+  .col-heading span { color: #e8c96a; }
+
+  /* Sub-headings */
+  .sh {
+    font-size: 11px;
+    font-weight: 800;
+    color: #2d0f29;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: #c8a84b;
+    margin: 10px 0 4px;
+  }
+
+  p { font-size: 10.5px; line-height: 1.55; color: #222; margin-bottom: 4px; }
+
+  /* Feature rows */
+  .feat { display: flex; gap: 4px; margin-bottom: 3.5px; align-items: flex-start; }
+  .feat-lbl { font-weight: 700; font-size: 10.5px; color: #1a1a1a; min-width: 108px; flex-shrink: 0; }
+  .feat-txt { font-size: 10px; color: #444; line-height: 1.45; }
+
+  /* NFR list */
+  .nfr-item { display: flex; gap: 5px; align-items: flex-start; margin-bottom: 3px; }
+  .nfr-lbl { font-weight: 700; font-size: 10.5px; color: #1a1a1a; }
+  .nfr-txt { font-size: 10px; color: #444; line-height: 1.45; }
+
+  /* Tech stack text */
+  .ts-row { margin-bottom: 4px; font-size: 10.5px; }
+  .ts-row b { color: #1a1a1a; }
+
+  /* Architecture diagram — exact reference style */
+  .arch-wrap {
+    border: 1.5px solid #bbb;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 8px 0;
+    background: #fafafa;
+  }
+  .arch-box {
+    border: 1.5px solid #8b4a6e;
+    margin: 10px 18px;
+    border-radius: 3px;
+    text-align: center;
+    padding: 8px 10px;
+    background: #fff;
+  }
+  .arch-box-title { font-weight: 800; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.5px; color: #2d0f29; }
+  .arch-box-sub { font-size: 9.5px; color: #666; margin-top: 2px; }
+  .arch-arr {
+    text-align: center;
+    font-size: 9.5px;
+    color: #555;
+    font-style: italic;
+    padding: 3px 0;
+  }
+  .arch-arr::before { content: '↓  '; font-style: normal; color: #888; }
+
+  /* API table */
+  .tbl { width: 100%; border-collapse: collapse; margin: 6px 0; font-size: 9.5px; }
+  .tbl th { background: #4a1942; color: #fff; padding: 4px 8px; text-align: left; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .tbl td { padding: 3.5px 8px; border-bottom: 1px solid #eee; }
+  .tbl tr:nth-child(even) td { background: #fdf8fd; }
+  .m-get { color: #16a34a; font-weight: 700; }
+  .m-post { color: #d97706; font-weight: 700; }
+  .m-del { color: #dc2626; font-weight: 700; }
+  .m-put { color: #2563eb; font-weight: 700; }
+
+  /* DB table */
+  .dbtbl { width: 100%; border-collapse: collapse; margin: 6px 0; font-size: 9.5px; }
+  .dbtbl th { background: #7a3a6a; color: #fff; padding: 4px 8px; text-align: left; font-size: 9px; text-transform: uppercase; }
+  .dbtbl td { padding: 3.5px 8px; border-bottom: 1px solid #f0e8ef; }
+  .dbtbl tr:nth-child(even) td { background: #fdf5fc; }
+
+  /* Screenshots */
+  .ss-box {
+    border: 1.5px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .ss-label {
+    background: #4a1942;
+    color: #e8c96a;
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 3px 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .ss-img { width: 100%; height: 108px; object-fit: cover; object-position: center; display: block; }
+  .ss-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  /* Stats */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin: 8px 0;
+  }
+  .stat-c {
+    border: 1.5px solid #c8a84b;
+    border-radius: 5px;
+    text-align: center;
+    padding: 6px 4px;
+    background: #fdf8ee;
+  }
+  .stat-n { font-size: 20px; font-weight: 900; color: #4a1942; line-height: 1; }
+  .stat-l { font-size: 8.5px; color: #7a5a6a; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; font-weight: 600; }
+
+  /* Conclusion */
+  .concl {
+    border: 1.5px solid #bbb;
+    border-radius: 4px;
+    padding: 10px 12px;
+    background: #fafafa;
+    font-size: 10.5px;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  /* Footer */
+  .ftr {
+    background: #4a1942;
+    border-top: 3px solid #c8a84b;
+    padding: 6px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .ftr span { font-size: 9px; color: #c4a8c0; }
+  .ftr strong { color: #e8c96a; }
+
+  /* Print */
+  @media print {
+    body { background: none; padding: 0; }
+    .poster { width: 420mm; box-shadow: none; }
+    .no-print { display: none !important; }
+    @page { size: A3 landscape; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-left">
+      <div class="hdr-title">PROTEAM GYM</div>
+      <div class="hdr-sub">Gym Management &amp; Membership Web Application</div>
+      <div class="hdr-tag">Web Development Project Poster &nbsp;|&nbsp; Standard A3 Format</div>
+    </div>
+    <div class="hdr-right">
+      <div class="info-row">
+        <span class="info-lbl">Student Name</span>
+        <span class="info-col">:</span>
+        <span class="info-val">Chirag Jain</span>
+      </div>
+      <div class="info-row">
+        <span class="info-lbl">Enrollment No.</span>
+        <span class="info-col">:</span>
+        <span class="info-val">202503103510309</span>
+      </div>
+      <div class="info-row">
+        <span class="info-lbl">Division / Class</span>
+        <span class="info-col">:</span>
+        <span class="info-val">D</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- ── COL 1 : SYSTEM REQUIREMENTS ── -->
+    <div class="col">
+      <div class="col-heading"><span>1.</span> SYSTEM REQUIREMENTS</div>
+
+      <div class="sh">1.1 Project Overview</div>
+      <p>The <b>Proteam Gym</b> web application is a full-stack gym management system built for Proteam Fitness, Vesu, Surat. It provides a complete digital platform for managing gym members, class schedules, membership plans, and bookings online. The Admin manages members and assigns plans, while Members can register, log in, book classes, and track their fitness journey. The system uses a secure REST API with JWT authentication and a file-based SQLite database requiring no external installation.</p>
+
+      <div class="sh">1.2 Key Web Features</div>
+      <div class="feat"><span class="feat-lbl">User Login / Register:</span><span class="feat-txt">Secure sign-up &amp; login with JWT token sessions; role-based access for Admin vs Member.</span></div>
+      <div class="feat"><span class="feat-lbl">Membership Plans:</span><span class="feat-txt">Basic (₹999/mo), Standard (₹2,499/3mo), Premium (₹7,999/yr). Admin assigns plans from dashboard.</span></div>
+      <div class="feat"><span class="feat-lbl">Class Booking:</span><span class="feat-txt">12 weekly classes (Mon–Sun) with live capacity tracking. Booking blocked automatically when full.</span></div>
+      <div class="feat"><span class="feat-lbl">Admin Panel:</span><span class="feat-txt">Full member management — view, assign membership, view bookings &amp; contact messages.</span></div>
+      <div class="feat"><span class="feat-lbl">Member Dashboard:</span><span class="feat-txt">View profile, active membership, booked classes, expiry date, and BMI calculator tool.</span></div>
+      <div class="feat"><span class="feat-lbl">Trainers Page:</span><span class="feat-txt">4 certified trainer profiles with specialization, experience, bio, rating, and Instagram handle.</span></div>
+      <div class="feat"><span class="feat-lbl">Contact Form:</span><span class="feat-txt">Inquiry form saved to database. Admin can view, mark as read, or delete messages.</span></div>
+      <div class="feat"><span class="feat-lbl">DB Viewer:</span><span class="feat-txt">Browser-based admin database viewer — view all 6 tables, search, and delete records live.</span></div>
+      <div class="feat"><span class="feat-lbl">Gallery &amp; Images:</span><span class="feat-txt">Real Proteam Fitness photos (reception, equipment, floor) in mosaic grid on home page.</span></div>
+      <div class="feat"><span class="feat-lbl">Responsive Design:</span><span class="feat-txt">Mobile-friendly layout using CSS Grid &amp; Flexbox; works on phones, tablets, and desktops.</span></div>
+
+      <div class="sh">1.3 Non-Functional Requirements (NFR)</div>
+      <div class="nfr-item"><span class="nfr-lbl">Security:</span><span class="nfr-txt">Passwords hashed with bcrypt; JWT tokens for sessions; admin routes protected with role middleware.</span></div>
+      <div class="nfr-item"><span class="nfr-lbl">Usability:</span><span class="nfr-txt">Simple, clean interface with smooth animations; dark theme; accessible for all fitness levels.</span></div>
+      <div class="nfr-item"><span class="nfr-lbl">Performance:</span><span class="nfr-txt">SQLite WAL mode for fast reads; lightweight Express server; all API responses under 100ms.</span></div>
+      <div class="nfr-item"><span class="nfr-lbl">Reliability:</span><span class="nfr-txt">Foreign key constraints enforced; booking count cannot exceed class capacity; data stays consistent.</span></div>
+      <div class="nfr-item"><span class="nfr-lbl">Scalability:</span><span class="nfr-txt">SQLite supports up to 281 TB of data; architecture ready for MySQL/PostgreSQL migration.</span></div>
+      <div class="nfr-item"><span class="nfr-lbl">Portability:</span><span class="nfr-txt">Single `.db` file; runs on Windows/Linux/Mac with Node.js — no server or DB installation needed.</span></div>
+    </div>
+
+    <!-- ── COL 2 : WEB APP ARCHITECTURE ── -->
+    <div class="col">
+      <div class="col-heading"><span>2.</span> WEB APPLICATION ARCHITECTURE</div>
+
+      <div class="sh">2.1 Technology Stack</div>
+      <div class="ts-row"><b>Frontend:</b> &nbsp;HTML5, CSS3, JavaScript (ES6+), Font Awesome 6, Google Fonts</div>
+      <div class="ts-row"><b>Backend:</b> &nbsp;Node.js v24, Express.js v4, bcryptjs, JSON Web Token (JWT)</div>
+      <div class="ts-row"><b>Database:</b> &nbsp;SQLite via Node.js built-in <code>node:sqlite</code> module (WAL mode)</div>
+      <div class="ts-row"><b>Dev Tools:</b> &nbsp;VS Code, nodemon, DB Browser for SQLite, web browser</div>
+
+      <div class="sh">2.2 Architecture Diagram</div>
+      <p>The application follows a client–server model. The user interacts with the website in a browser; JavaScript sends HTTP requests to the Express.js server; the server validates JWT tokens, applies business logic, and queries the SQLite database, then returns JSON responses rendered by the frontend.</p>
+      <div class="arch-wrap">
+        <div class="arch-box">
+          <div class="arch-box-title">Member / Admin (Client)</div>
+          <div class="arch-box-sub">Web Browser &nbsp;•&nbsp; HTML / CSS / JavaScript (fetch API)</div>
+        </div>
+        <div class="arch-arr">HTTP Request &nbsp;(REST API — JSON)</div>
+        <div class="arch-box">
+          <div class="arch-box-title">Express.js Application (Server)</div>
+          <div class="arch-box-sub">JWT Auth Middleware &nbsp;•&nbsp; Role Check &nbsp;•&nbsp; Route Handlers &nbsp;•&nbsp; Business Logic</div>
+        </div>
+        <div class="arch-arr">SQL Queries &nbsp;(node:sqlite — Synchronous)</div>
+        <div class="arch-box" style="margin-bottom:10px">
+          <div class="arch-box-title">SQLite Database &nbsp;(proteam.db)</div>
+          <div class="arch-box-sub">users &nbsp;•&nbsp; memberships &nbsp;•&nbsp; classes &nbsp;•&nbsp; bookings &nbsp;•&nbsp; trainers &nbsp;•&nbsp; contacts</div>
+        </div>
+      </div>
+
+      <div class="sh">2.3 REST API Endpoints</div>
+      <table class="tbl">
+        <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th><th>Auth</th></tr></thead>
+        <tbody>
+          <tr><td class="m-post">POST</td><td>/api/auth/register</td><td>Register new member</td><td>Public</td></tr>
+          <tr><td class="m-post">POST</td><td>/api/auth/login</td><td>Login and receive JWT token</td><td>Public</td></tr>
+          <tr><td class="m-get">GET</td><td>/api/classes</td><td>Fetch all weekly classes</td><td>Public</td></tr>
+          <tr><td class="m-post">POST</td><td>/api/bookings</td><td>Book a class slot</td><td>Member</td></tr>
+          <tr><td class="m-get">GET</td><td>/api/trainers</td><td>Fetch all trainer profiles</td><td>Public</td></tr>
+          <tr><td class="m-post">POST</td><td>/api/contact</td><td>Submit contact inquiry</td><td>Public</td></tr>
+          <tr><td class="m-get">GET</td><td>/api/admin/users</td><td>List all members</td><td>Admin</td></tr>
+          <tr><td class="m-put">PUT</td><td>/api/admin/membership/:id</td><td>Assign membership plan</td><td>Admin</td></tr>
+          <tr><td class="m-del">DELETE</td><td>/api/admin/users/:id</td><td>Delete member &amp; all data</td><td>Admin</td></tr>
+          <tr><td class="m-get">GET</td><td>/api/admin/contacts</td><td>View all contact messages</td><td>Admin</td></tr>
+        </tbody>
+      </table>
+
+      <div class="sh">2.4 Server-Side Technologies</div>
+      <p>This project uses <b>Node.js</b> as the server-side runtime with <b>Express.js</b> as the web framework to handle routing and API requests. Server-side scripting — similar to how <b>PHP</b> handles backend logic in traditional web projects — is managed through Express.js route handlers that process requests, validate JWT tokens, and interact with the SQLite database before returning a JSON response to the client.</p>
+
+      <div class="sh">2.5 Database Tables</div>
+      <table class="dbtbl">
+        <thead><tr><th>Table</th><th>Key Fields</th><th>Rows</th></tr></thead>
+        <tbody>
+          <tr><td><b>users</b></td><td>id, name, email, password (bcrypt), role, membership_plan, membership_end</td><td>6</td></tr>
+          <tr><td><b>memberships</b></td><td>user_id, plan, price, start_date, end_date, status, payment_method</td><td>4</td></tr>
+          <tr><td><b>classes</b></td><td>name, trainer, day, time, duration, max_capacity, current_enrolled</td><td>12</td></tr>
+          <tr><td><b>bookings</b></td><td>user_id, class_id, user_name, class_name, booking_date, status</td><td>10</td></tr>
+          <tr><td><b>trainers</b></td><td>name, specialization, experience, bio, photo, instagram, rating</td><td>4</td></tr>
+          <tr><td><b>contacts</b></td><td>name, email, phone, subject, message, status, created_at</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── COL 3 : SCREENSHOTS + CONCLUSION ── -->
+    <div class="col">
+      <div class="col-heading"><span>3.</span> WEBSITE SCREENSHOTS</div>
+
+      <div class="sh" style="margin-top:0">3.1 Gym Reception — Home Page</div>
+      <div class="ss-box">
+        <img src="images/reception.webp" alt="Reception" class="ss-img" style="height:118px"/>
+      </div>
+
+      <div class="sh">3.2 Equipment &amp; Training Floor</div>
+      <div class="ss-grid">
+        <div class="ss-box" style="margin-bottom:0">
+          <div class="ss-label">Equipment Zone</div>
+          <img src="images/equipment.webp" alt="Equipment" class="ss-img" style="height:95px"/>
+        </div>
+        <div class="ss-box" style="margin-bottom:0">
+          <div class="ss-label">Training Floor</div>
+          <img src="images/gym-floor.webp" alt="Floor" class="ss-img" style="height:95px"/>
+        </div>
+      </div>
+
+      <div class="sh" style="margin-top:8px">3.3 Cable &amp; Machine Zone</div>
+      <div class="ss-box">
+        <img src="images/machines.webp" alt="Machines" class="ss-img" style="height:95px"/>
+      </div>
+
+      <!-- Live DB Stats -->
+      <div class="stats-strip">
+        <div class="stat-c">
+          <div class="stat-n">6</div>
+          <div class="stat-l">Members</div>
+        </div>
+        <div class="stat-c">
+          <div class="stat-n">12</div>
+          <div class="stat-l">Classes/Wk</div>
+        </div>
+        <div class="stat-c">
+          <div class="stat-n">10</div>
+          <div class="stat-l">Bookings</div>
+        </div>
+        <div class="stat-c">
+          <div class="stat-n">4</div>
+          <div class="stat-l">Trainers</div>
+        </div>
+      </div>
+
+      <!-- Conclusion -->
+      <div class="col-heading" style="margin:10px -16px 8px"><span>4.</span> CONCLUSION</div>
+      <div class="concl">
+        The <b>Proteam Gym</b> project successfully implements full-stack web development using a <b>Node.js + Express.js + SQLite</b> architecture. It features JWT-based authentication with role-based access control for Members and Admins, bcrypt-encrypted password storage following security best practices, and a complete REST API with 15+ endpoints handling all server-side business logic.
+        <br/><br/>
+        The frontend delivers a fully responsive, mobile-friendly experience with a class booking system that enforces real-time capacity limits, a member dashboard for self-service, and an admin panel for complete gym management. Real photos of Proteam Fitness gym in Vesu, Surat are integrated across the site. A custom browser-based DB Viewer allows live data inspection and deletion without any external tools. The modular design makes it straightforward to extend with payment gateway integration, SMS notifications, or cloud deployment in future iterations.
+      </div>
+    </div>
+
+  </div><!-- /body -->
+
+  <!-- FOOTER -->
+  <div class="ftr">
+    <span>📍 <strong>Proteam Fitness</strong> — Ashtha Corporate, 201-202, above LG Showroom, Nr. Shyam Mandir Road, Vesu, Surat, Gujarat 395007 &nbsp;|&nbsp; 📞 +91 97255 93436</span>
+    <span><strong>Web Development Project Poster</strong> &nbsp;•&nbsp; A3 Landscape &nbsp;•&nbsp; 2026</span>
+  </div>
+
+</div><!-- /poster -->
+
+<!-- Controls -->
+<div class="no-print" style="margin-top:18px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+  <button onclick="window.print()"
+    style="padding:11px 28px;background:#4a1942;color:#e8c96a;border:2px solid #c8a84b;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:0.5px">
+    🖨️ Print / Save as PDF (A3)
+  </button>
+  <a href="index.html"
+    style="padding:11px 28px;background:#fff;color:#4a1942;border:2px solid #4a1942;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:0.5px;text-decoration:none;display:inline-block">
+    ← Back to Website
+  </a>
+</div>
+
+<p class="no-print" style="color:#eee;font-size:11px;margin-top:10px;text-align:center">
+  💡 To print: Select <b>A3</b> paper size, <b>Landscape</b>, Margins <b>None</b>, enable <b>Background graphics</b>
+</p>
+
+<style>@media print { .no-print{display:none!important} body{padding:0;background:none} }</style>
+</body>
+</html>

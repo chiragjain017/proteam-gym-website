@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proteam Gym — Transform Your Body, Transform Your Life</title>
+  <meta name="description" content="Proteam Gym is Surat's premier fitness destination. Join 2000+ members and train with India's top certified coaches. Powerlifting, CrossFit, Zumba & more." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- ── NAVBAR ────────────────────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">💪</div>
+      <span class="logo-text">PROTEAM GYM</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="membership.html">Membership</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="trainers.html">Trainers</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions" id="navActions">
+      <div id="navGuest">
+        <button class="btn btn-primary btn-sm" onclick="openAuthModal('login')" id="loginBtn">Login</button>
+      </div>
+      <div id="navUser" class="hidden" style="display:none;align-items:center;gap:12px">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
+        <div class="nav-avatar" id="navAvatar" onclick="location.href='dashboard.html'">U</div>
+      </div>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────────── -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span>🔥</span> #1 GYM IN THE CITY
+      </div>
+      <h1 class="hero-title">
+        FORGE YOUR<br><span>ULTIMATE</span><br>PHYSIQUE
+      </h1>
+      <p class="hero-sub">
+        Elite training. Expert coaches. World-class equipment.<br>
+        Proteam Gym is where champions are made. Start your transformation today.
+      </p>
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-lg" onclick="openAuthModal('register')" id="heroJoinBtn">
+          <i class="fas fa-fire"></i> Join Now — Free Trial
+        </button>
+        <a href="schedule.html" class="btn btn-secondary btn-lg">
+          <i class="fas fa-calendar"></i> View Schedule
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">2000+</div>
+          <div class="hero-stat-label">Active Members</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">15+</div>
+          <div class="hero-stat-label">Expert Trainers</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">50+</div>
+          <div class="hero-stat-label">Classes/Week</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div style="position:relative">
+        <div class="floating-badge">⭐<br>4.9<br>Rating</div>
+        <div class="hero-card fade-up stagger-1">
+          <div class="hero-card-icon">🏋️</div>
+          <h3>Strength Training</h3>
+          <p>Heavy compound lifts with certified powerlifting coaches</p>
+        </div>
+        <div class="hero-card fade-up stagger-2" style="margin-top:20px">
+          <div class="hero-card-icon">⚡</div>
+          <h3>HIIT & CrossFit</h3>
+          <p>Burn maximum calories with functional fitness programming</p>
+        </div>
+        <div class="hero-card fade-up stagger-3" style="margin-top:20px">
+          <div class="hero-card-icon">🧘</div>
+          <h3>Yoga & Recovery</h3>
+          <p>Flexibility, mindfulness and active recovery sessions</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ────────────────────────────────────────────────────── -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span>POWERLIFTING</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>CROSSFIT</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>ZUMBA</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>BOXING</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>YOGA</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>HIIT CARDIO</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>SPIN CYCLING</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>BODYBUILDING</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>POWERLIFTING</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>CROSSFIT</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>ZUMBA</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>BOXING</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>YOGA</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>HIIT CARDIO</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>SPIN CYCLING</span><span class="marquee-dot"></span></div>
+    <div class="marquee-item"><span>BODYBUILDING</span><span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- ── STATS ──────────────────────────────────────────────────────── -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-up">
+        <div class="stat-icon">🏆</div>
+        <div class="stat-num" data-target="2000">0</div>
+        <div class="stat-label">Members Strong</div>
+      </div>
+      <div class="stat-item fade-up stagger-1">
+        <div class="stat-icon">💪</div>
+        <div class="stat-num" data-target="15">0</div>
+        <div class="stat-label">Certified Trainers</div>
+      </div>
+      <div class="stat-item fade-up stagger-2">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-num" data-target="50">0</div>
+        <div class="stat-label">Weekly Classes</div>
+      </div>
+      <div class="stat-item fade-up stagger-3">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-num" data-target="8">0</div>
+        <div class="stat-label">Years of Excellence</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ─────────────────────────────────────────────────── -->
+<section id="gallery" style="background:var(--bg2);padding:80px 0">
+  <div class="container text-center">
+    <span class="section-badge">Our Facility</span>
+    <h2 class="section-title">Inside <span class="gradient-text">Proteam Gym</span></h2>
+    <p class="section-subtitle">State-of-the-art equipment, premium flooring, and a motivating environment to push your limits</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:16px;margin-top:40px;border-radius:24px;overflow:hidden">
+      <div style="grid-column:1;grid-row:1 2;position:relative;overflow:hidden;border-radius:20px;min-height:320px">
+        <img src="images/reception.webp" alt="Proteam Gym Reception"
+          style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s ease" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent)">
+          <span style="color:#fff;font-weight:600;font-size:1rem">Welcome Lobby</span>
+        </div>
+      </div>
+      <div style="grid-column:2;grid-row:1;position:relative;overflow:hidden;border-radius:20px;min-height:220px">
+        <img src="images/equipment.webp" alt="Gym Equipment"
+          style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s ease" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent)">
+          <span style="color:#fff;font-weight:600;font-size:0.95rem">Premium Equipment</span>
+        </div>
+      </div>
+      <div style="grid-column:2;grid-row:2;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div style="position:relative;overflow:hidden;border-radius:20px;min-height:220px">
+          <img src="images/gym-floor.webp" alt="Gym Floor"
+            style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s ease" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:12px;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent)">
+            <span style="color:#fff;font-weight:600;font-size:0.85rem">Training Floor</span>
+          </div>
+        </div>
+        <div style="position:relative;overflow:hidden;border-radius:20px;min-height:220px">
+          <img src="images/machines.webp" alt="Weight Machines"
+            style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s ease" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:12px;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent)">
+            <span style="color:#fff;font-weight:600;font-size:0.85rem">Cable & Machines</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ──────────────────────────────────────────────────────── -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual fade-up">
+        <div class="about-img-box">
+          <img src="images/reception.webp" alt="Proteam Gym Reception" style="width:100%;height:100%;object-fit:cover;border-radius:30px;position:relative;z-index:1;" />
+        </div>
+        <div class="about-exp-badge">
+          <div class="about-exp-num">8+</div>
+          <div style="font-size:0.8rem;color:var(--text-muted)">Years of<br>Excellence</div>
+        </div>
+      </div>
+      <div class="about-text fade-up stagger-2">
+        <span class="section-badge">About Proteam Gym</span>
+        <h2>We Build <span class="gradient-text">Champions</span>,<br>Not Just Bodies</h2>
+        <p>Founded in 2016, Proteam Gym has been Surat's most trusted fitness destination. We combine cutting-edge equipment, science-backed programming, and personalized coaching to deliver real, lasting results.</p>
+        <p>Whether you're a beginner looking to lose weight or an advanced athlete training for competition — we have the tools, expertise, and community to help you succeed.</p>
+        <div class="about-features">
+          <div class="about-feature">
+            <div class="about-feature-icon">🏋️</div>
+            <div>
+              <h4>State-of-the-Art Equipment</h4>
+              <p>10,000 sq ft of premium gym equipment from top brands</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">👨‍🏫</div>
+            <div>
+              <h4>Certified Expert Trainers</h4>
+              <p>NSCA, ACE & international certified fitness professionals</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">🥤</div>
+            <div>
+              <h4>Nutrition Guidance</h4>
+              <p>Personalized diet plans and supplement consulting</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">📱</div>
+            <div>
+              <h4>Online Progress Tracking</h4>
+              <p>Member dashboard with workout history and progress metrics</p>
+            </div>
+          </div>
+        </div>
+        <a href="membership.html" class="btn btn-primary">Explore Plans <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CLASSES PREVIEW ────────────────────────────────────────────── -->
+<section style="background:var(--bg2)" id="classes-preview">
+  <div class="container text-center">
+    <span class="section-badge">Our Classes</span>
+    <h2 class="section-title">Find Your <span class="gradient-text">Perfect Class</span></h2>
+    <p class="section-subtitle">From intense powerlifting to calming yoga — we offer 50+ classes per week for all fitness levels</p>
+    <div class="class-grid" id="homeClasses">
+      <div class="flex-center" style="grid-column:1/-1;padding:60px">
+        <div class="loading"></div>
+      </div>
+    </div>
+    <div style="margin-top:48px">
+      <a href="schedule.html" class="btn btn-primary btn-lg">View Full Schedule <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRAINERS PREVIEW ───────────────────────────────────────────── -->
+<section id="trainers-preview">
+  <div class="container text-center">
+    <span class="section-badge">Expert Coaches</span>
+    <h2 class="section-title">Train With The <span class="gradient-text">Best</span></h2>
+    <p class="section-subtitle">Our certified trainers bring decades of combined experience across every fitness discipline</p>
+    <div class="grid-4" id="homeTrainers">
+      <div class="flex-center" style="grid-column:1/-1;padding:60px">
+        <div class="loading"></div>
+      </div>
+    </div>
+    <div style="margin-top:48px">
+      <a href="trainers.html" class="btn btn-outline btn-lg">Meet All Trainers <i class="fas fa-users"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ── BMI CALCULATOR ─────────────────────────────────────────────── -->
+<section class="bmi-section">
+  <div class="container text-center">
+    <span class="section-badge">Free Tool</span>
+    <h2 class="section-title">Check Your <span class="gradient-text">BMI</span></h2>
+    <p class="section-subtitle">Get your Body Mass Index and personalized fitness recommendations instantly</p>
+    <div class="bmi-calculator fade-up">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="bmiWeight">Weight (kg)</label>
+          <input type="number" id="bmiWeight" placeholder="e.g. 70" min="30" max="250" />
+        </div>
+        <div class="form-group">
+          <label for="bmiHeight">Height (cm)</label>
+          <input type="number" id="bmiHeight" placeholder="e.g. 175" min="100" max="250" />
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="calculateBMI()">
+        <i class="fas fa-calculator"></i> Calculate BMI
+      </button>
+      <div class="bmi-result" id="bmiResult">
+        <div class="bmi-value" id="bmiValue">--</div>
+        <div class="bmi-category" id="bmiCategory">--</div>
+        <div class="bmi-advice" id="bmiAdvice">--</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA BANNER ─────────────────────────────────────────────────── -->
+<section style="background:var(--gradient);padding:80px 0">
+  <div class="container text-center">
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,6vw,4.5rem);letter-spacing:3px;margin-bottom:16px">
+      READY TO START YOUR JOURNEY?
+    </h2>
+    <p style="font-size:1.15rem;opacity:0.9;margin-bottom:36px">Join 2000+ members who already transformed their lives at Proteam Gym</p>
+    <button class="btn btn-lg" style="background:white;color:var(--purple-dark);font-weight:700" onclick="openAuthModal('register')">
+      <i class="fas fa-fire"></i> Get Started Today — FREE
+    </button>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <div class="logo-icon">💪</div>
+          <span class="logo-text">PROTEAM GYM</span>
+        </div>
+        <p>Surat's premier fitness destination since 2016. Transform your body, elevate your mindset, and join our champion community.</p>
+        <div class="footer-social">
+          <a class="social-btn" href="#"><i class="fab fa-instagram"></i></a>
+          <a class="social-btn" href="#"><i class="fab fa-facebook"></i></a>
+          <a class="social-btn" href="#"><i class="fab fa-youtube"></i></a>
+          <a class="social-btn" href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-title">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="membership.html">Membership</a></li>
+          <li><a href="schedule.html">Class Schedule</a></li>
+          <li><a href="trainers.html">Trainers</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-title">Programs</h4>
+        <ul class="footer-links">
+          <li><a href="#">Powerlifting</a></li>
+          <li><a href="#">CrossFit</a></li>
+          <li><a href="#">Zumba Dance</a></li>
+          <li><a href="#">Boxing</a></li>
+          <li><a href="#">Yoga & Stretch</a></li>
+          <li><a href="#">HIIT Cardio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-title">Contact Info</h4>
+        <div class="footer-contact">
+          <div class="footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>Ashtha Corporate, 201-202, above LG Showroom,<br>Nr. Shyam Mandir Road, Vesu, Surat, Gujarat 395007</span></div>
+          <div class="footer-contact-item"><i class="fas fa-phone"></i><span>+91 97255 93436</span></div>
+          <div class="footer-contact-item"><i class="fas fa-envelope"></i><span>hello@proteamgym.com</span></div>
+          <div class="footer-contact-item"><i class="fas fa-clock"></i><span>Mon–Sat: 5AM–11PM<br>Sunday: 7AM–8PM</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Proteam Gym. All rights reserved.</span>
+      <span>Made with ❤️ in Surat, India</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ── AUTH MODAL ─────────────────────────────────────────────────── -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <div class="tabs">
+      <button class="tab active" id="loginTab" onclick="switchTab('login')">Login</button>
+      <button class="tab" id="registerTab" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <!-- Login Form -->
+    <div id="loginForm">
+      <h2>Welcome Back 💪</h2>
+      <p>Sign in to your Proteam Gym account</p>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="loginEmail" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" />
+      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="handleLogin()" id="loginSubmit">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
+      <div class="auth-switch">Don't have an account? <a onclick="switchTab('register')">Register Free</a></div>
+    </div>
+
+    <!-- Register Form -->
+    <div id="registerForm" class="hidden">
+      <h2>Join Proteam Gym 🔥</h2>
+      <p>Create your free account today</p>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="regName" placeholder="John Doe" />
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="regEmail" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="regPhone" placeholder="+91 98765 43210" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="regPassword" placeholder="Min. 6 characters" />
+      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="handleRegister()" id="registerSubmit">
+        <i class="fas fa-user-plus"></i> Create Account
+      </button>
+      <div class="auth-switch">Already a member? <a onclick="switchTab('login')">Login Here</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ──────────────────────────────────────────────────────── -->
+<div class="toast" id="toast"></div>
+
+<script src="js/main.js"></script>
+<script>
+// Load preview classes
+async function loadHomeClasses() {
+  try {
+    const res = await fetch('/api/classes');
+    const classes = await res.json();
+    const preview = classes.slice(0, 6);
+    const grid = document.getElementById('homeClasses');
+    grid.innerHTML = preview.map(c => renderClassCard(c)).join('');
+  } catch (e) {
+    document.getElementById('homeClasses').innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1">Failed to load classes</p>';
+  }
+}
+
+// Load preview trainers
+async function loadHomeTrainers() {
+  try {
+    const res = await fetch('/api/trainers');
+    const trainers = await res.json();
+    const grid = document.getElementById('homeTrainers');
+    grid.innerHTML = trainers.map(t => renderTrainerCard(t)).join('');
+  } catch (e) {}
+}
+
+loadHomeClasses();
+loadHomeTrainers();
+</script>
+</body>
+</html>

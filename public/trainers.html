@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expert Trainers — Proteam Gym</title>
+  <meta name="description" content="Meet Proteam Gym's certified expert trainers. Specialists in powerlifting, CrossFit, yoga, boxing and cardio with decades of experience." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">💪</div>
+      <span class="logo-text">PROTEAM GYM</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="membership.html">Membership</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="trainers.html" class="active">Trainers</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions" id="navActions">
+      <div id="navGuest"><button class="btn btn-primary btn-sm" onclick="openAuthModal('login')">Login</button></div>
+      <div id="navUser" class="hidden" style="display:none;align-items:center;gap:12px">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
+        <div class="nav-avatar" id="navAvatar" onclick="location.href='dashboard.html'">U</div>
+      </div>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <span class="section-badge">Our Team</span>
+    <h1 class="gradient-text">EXPERT TRAINERS</h1>
+    <p>India's top certified fitness coaches — all under one roof</p>
+  </div>
+</div>
+
+<section class="trainers-section">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:60px">
+      <span class="section-badge">Certified Professionals</span>
+      <h2 class="section-title">Meet The <span class="gradient-text">Champions</span></h2>
+      <p style="color:var(--text-muted);max-width:600px;margin:0 auto">Every trainer at Proteam Gym holds international certifications and brings real competitive experience to every session</p>
+    </div>
+    <div class="grid-4" id="trainersGrid">
+      <div class="flex-center" style="grid-column:1/-1;padding:80px"><div class="loading"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Train With Us -->
+<section>
+  <div class="container">
+    <div class="text-center" style="margin-bottom:60px">
+      <span class="section-badge">Our Approach</span>
+      <h2 class="section-title">The Proteam <span class="gradient-text">Method</span></h2>
+    </div>
+    <div class="grid-3">
+      <div class="hero-card fade-up" style="border-radius:20px;padding:36px">
+        <div class="hero-card-icon" style="font-size:2rem">🎯</div>
+        <h3>Goal-Based Programming</h3>
+        <p style="color:var(--text-muted);margin-top:8px">Every program is tailored to your specific goals — weight loss, muscle gain, athletic performance, or general wellness.</p>
+      </div>
+      <div class="hero-card fade-up stagger-1" style="border-radius:20px;padding:36px">
+        <div class="hero-card-icon" style="font-size:2rem">📊</div>
+        <h3>Science-Backed Methods</h3>
+        <p style="color:var(--text-muted);margin-top:8px">Our trainers use evidence-based training principles backed by sports science research and practical experience.</p>
+      </div>
+      <div class="hero-card fade-up stagger-2" style="border-radius:20px;padding:36px">
+        <div class="hero-card-icon" style="font-size:2rem">🏅</div>
+        <h3>Competition Experience</h3>
+        <p style="color:var(--text-muted);margin-top:8px">Several of our coaches are current or former national-level athletes. They know what it takes to win.</p>
+      </div>
+      <div class="hero-card fade-up stagger-3" style="border-radius:20px;padding:36px">
+        <div class="hero-card-icon" style="font-size:2rem">💬</div>
+        <h3>24/7 Support</h3>
+        <p style="color:var(--text-muted);margin-top:8px">Questions don't wait for gym hours. Our trainers are available via WhatsApp for quick advice anytime.</p>
+      </div>
+      <div class="hero-card fade-up stagger-1" style="border-radius:20px;padding:36px">
+        <div class="hero-card-icon" style="font-size:2rem">🥗</div>
+        <h3>Nutrition Integration</h3>
+        <p style="color:var(--text-muted);margin-top:8px">Training is only half the equation. We provide integrated nutrition guidance to maximize your results.</p>
+      </div>
+      <div class="hero-card fade-up stagger-2" style="border-radius:20px;padding:36px">
+        <div class="hero-card-icon" style="font-size:2rem">📈</div>
+        <h3>Progress Tracking</h3>
+        <p style="color:var(--text-muted);margin-top:8px">Regular assessments and tracking to ensure you're always moving toward your goals with measurable progress.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Certifications -->
+<section style="background:var(--bg2);padding:60px 0">
+  <div class="container text-center">
+    <h3 style="font-size:1.4rem;margin-bottom:40px;color:var(--text-muted)">Our Trainers Are Certified By</h3>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 28px;font-weight:700;font-size:0.9rem">NSCA-CPT</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 28px;font-weight:700;font-size:0.9rem">ACE Certified</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 28px;font-weight:700;font-size:0.9rem">ACSM Certified</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 28px;font-weight:700;font-size:0.9rem">Yoga Alliance RYT-200</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 28px;font-weight:700;font-size:0.9rem">CrossFit Level 2</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 28px;font-weight:700;font-size:0.9rem">Zumba Instructor</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding:80px 0;text-align:center">
+  <div class="container">
+    <h2 class="section-title">Ready to Train with <span class="gradient-text">The Best?</span></h2>
+    <p style="color:var(--text-muted);margin-bottom:40px">Book a free consultation with any of our trainers to find your perfect fit</p>
+    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+      <a href="membership.html" class="btn btn-primary btn-lg"><i class="fas fa-fire"></i> Join Now</a>
+      <a href="contact.html" class="btn btn-secondary btn-lg"><i class="fas fa-envelope"></i> Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <div class="tabs">
+      <button class="tab active" id="loginTab" onclick="switchTab('login')">Login</button>
+      <button class="tab" id="registerTab" onclick="switchTab('register')">Register</button>
+    </div>
+    <div id="loginForm">
+      <h2>Welcome Back 💪</h2>
+      <p>Sign in to your account</p>
+      <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="your@email.com" /></div>
+      <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••" /></div>
+      <button class="btn btn-primary" style="width:100%" onclick="handleLogin()" id="loginSubmit"><i class="fas fa-sign-in-alt"></i> Login</button>
+      <div class="auth-switch">New? <a onclick="switchTab('register')">Create account</a></div>
+    </div>
+    <div id="registerForm" class="hidden">
+      <h2>Join Today 🔥</h2>
+      <p>Create your free account</p>
+      <div class="form-group"><label>Full Name</label><input type="text" id="regName" placeholder="John Doe" /></div>
+      <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="your@email.com" /></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="regPhone" placeholder="+91 98765 43210" /></div>
+      <div class="form-group"><label>Password</label><input type="password" id="regPassword" placeholder="Min. 6 chars" /></div>
+      <button class="btn btn-primary" style="width:100%" onclick="handleRegister()" id="registerSubmit"><i class="fas fa-user-plus"></i> Create Account</button>
+      <div class="auth-switch">Have account? <a onclick="switchTab('login')">Login</a></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="js/main.js"></script>
+<script>
+  async function loadTrainers() {
+    try {
+      const res = await fetch('/api/trainers');
+      const trainers = await res.json();
+      document.getElementById('trainersGrid').innerHTML = trainers.map(t => renderTrainerCard(t)).join('');
+      setTimeout(() => {
+        document.querySelectorAll('.fade-up').forEach(el => {
+          const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+          }, { threshold: 0.1 });
+          obs.observe(el);
+        });
+      }, 50);
+    } catch (e) {}
+  }
+  loadTrainers();
+</script>
+</body>
+</html>
